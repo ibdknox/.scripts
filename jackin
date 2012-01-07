@@ -1,0 +1,22 @@
+#!/bin/bash
+
+name="jackin"
+pidfile=~/.run/jackin.pid
+
+if [ -f "$pidfile" ]; then
+    pid=`cat $pidfile`
+    running=`ps p $pid |wc -l`
+    if [ $running -eq 1 ]; then
+        pid=
+    fi
+else
+    pid=
+fi
+
+if [ "$pid" != "" ]; then
+    echo Stopping $name $pid
+    killc $pid
+    rm $pidfile
+fi
+lein nailgun &
+echo $! > $pidfile

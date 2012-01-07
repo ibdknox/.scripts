@@ -1,0 +1,7 @@
+pid=$1
+for child in $(ps -o pid,ppid -ax | \
+   awk "{ if ( \$2 == $pid ) { print \$1 }}")
+do
+  echo "Killing child process $child because ppid = $pid"
+  kill $child
+done
